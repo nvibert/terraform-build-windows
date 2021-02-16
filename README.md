@@ -1,7 +1,9 @@
 # terraform-build-windows
-A sample script to build a provider in Windows and move it to the right folder
+
+A sample to try out Terraform in Windows with a sample web application and a simple Terraform provider.
+
 When you want to compile a Terraform provider, it's sometimes confusing to work out how to do it and in which folder to push it.
-It's even more confusing in Windows when you spend most of your time on a Mac.
+It's even more confusing in Windows when you spend most of your time on a Mac: these instructions are mostly about helping others who run into this challenge.
 
 
 ## Assumptions and Format
@@ -51,3 +53,39 @@ Move the provider to the correct location:
 
 Assuming you're still in `terraform-provider-ctoa` and in the same folder as the `main.tf` file, the initialization should work:  
 `terraform init`
+
+Update the `main.tf` file with more resources. With this Terraform provider, every 'resource' is a user, with a first name and a last name. For example:
+
+```hcl
+resource "ctoa_people" "nvibert" {
+  first_name = "Nico"
+  last_name = "Vibert"
+}
+```
+
+Before you apply it, we need to start the local webserver. In the `main.tf` file, we refer to the host as the webserver (`127.0.0.1` is the client itself).
+
+To start the webserver, go to the ctoa-web folder:  
+
+`cd .\ctoa-hacknite\frontend\dist\ctoa-web\`
+
+And start the web server:
+
+`.\cto-api.exe` 
+  
+ Don't close the windows above.
+ 
+ Go to your browser on 127.0.0.1 and you should see a basic webserver.
+ 
+ In your Terraform terminal, once the main.tf file is updated with the resources you are creating, do a:
+ 
+ `terraform plan`
+ 
+ And a:
+ 
+ `terraform apply`
+   
+   
+ And you should see new entries added to the table on the webserver.
+ 
+ A `terraform destroy` will remove all entries from the table.
