@@ -44,8 +44,15 @@ Navigate to the Terraform folder:
 
 `cd ctoa-hacknite\terraform-provider-ctoa`
 
-Create a folder where the compiled provider will be moved to.  
-`mkdir -p %APPDATA%\terraform.d\plugins\vmware.com\edu\ctoa\0.1\windows_amd64`
+Create a folder where the compiled provider will be moved to.
+
+In a Windows cmd prompt:
+
+`mkdir %APPDATA%\terraform.d\plugins\vmware.com\edu\ctoa\0.1\windows_amd64`
+
+Alternatively, in PowerShell:
+
+`mkdir $env:APPDATA\terraform.d\plugins\vmware.com\edu\ctoa\0.1\windows_amd64`
 
 Compile the provider:  
 
@@ -53,7 +60,13 @@ Compile the provider:
 
 Move the provider to the correct location:  
 
+In a Windows cmd prompt:
+
 `move terraform-provider-ctoa.exe %APPDATA%\terraform.d\plugins\vmware.com\edu\ctoa\0.1\windows_amd64`
+
+Alternatively, in PowerShell:
+
+`move terraform-provider-ctoa.exe $env:APPDATA\terraform.d\plugins\vmware.com\edu\ctoa\0.1\windows_amd64`
 
 Assuming you're still in `terraform-provider-ctoa` and in the same folder as the `main.tf` file, the initialization should work:  
 `terraform init`
@@ -71,7 +84,7 @@ Before you apply it, we need to start the local webserver. In the `main.tf` file
 
 To start the webserver, go to the ctoa-web folder:  
 
-`cd .\ctoa-hacknite\frontend\dist\ctoa-web\`
+`cd ..\frontend\dist\ctoa-web\`
 
 And start the web server:
 
