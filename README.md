@@ -35,10 +35,12 @@ terraform {
 
 ## Usage:
 
+### 1. Cloning the repo: ###
 From the Windows command terminal:
 
 Clone the following [repo](https://github.com/adeleporte/ctoa-hacknite.git) with the following command:  
 `git clone https://github.com/adeleporte/ctoa-hacknite.git`
+
 
 Navigate to the Terraform folder:  
 
@@ -46,13 +48,15 @@ Navigate to the Terraform folder:
 
 Create a folder where the compiled provider will be moved to.
 
-In a Windows cmd prompt:
+ - In a Windows cmd prompt:
 
 `mkdir %APPDATA%\terraform.d\plugins\vmware.com\edu\ctoa\0.1\windows_amd64`
 
-Alternatively, in PowerShell:
+ - Alternatively, in PowerShell:
 
 `mkdir $env:APPDATA\terraform.d\plugins\vmware.com\edu\ctoa\0.1\windows_amd64`
+
+### 2. Compiling the provider and moving to the correct folder: ###
 
 Compile the provider:  
 
@@ -60,27 +64,15 @@ Compile the provider:
 
 Move the provider to the correct location:  
 
-In a Windows cmd prompt:
+- In a Windows cmd prompt:
 
 `move terraform-provider-ctoa.exe %APPDATA%\terraform.d\plugins\vmware.com\edu\ctoa\0.1\windows_amd64`
 
-Alternatively, in PowerShell:
+- Alternatively, in PowerShell:
 
 `move terraform-provider-ctoa.exe $env:APPDATA\terraform.d\plugins\vmware.com\edu\ctoa\0.1\windows_amd64`
 
-Assuming you're still in `terraform-provider-ctoa` and in the same folder as the `main.tf` file, the initialization should work:  
-`terraform init`
-
-Update the `main.tf` file with more resources. With this Terraform provider, every 'resource' you will create is a user, with a first name and a last name. For example:
-
-```hcl
-resource "ctoa_people" "nvibert" {
-  first_name = "Nico"
-  last_name = "Vibert"
-}
-```
-
-Before you apply it, we need to start the local webserver. In the `main.tf` file, we refer to the host as the webserver (`127.0.0.1` is the client itself).
+### 3. Start the webserver ###
 
 To start the webserver, go to the ctoa-web folder:  
 
@@ -97,6 +89,26 @@ Don't close the windows above.
 Go to your browser on 127.0.0.1 and you should see a basic webserver.
 
 ![web_server_pre_apply](clarity-web-server-empty.png)
+
+### 4. Deploy and manager resources with your custom Terraform provider ###
+
+From Visual Studio Code, navigate back to the Terraform folder:  
+
+`cd ctoa-hacknite\terraform-provider-ctoa`
+
+Assuming you're in `terraform-provider-ctoa` and in the same folder as the `main.tf` file, the initialization should work:  
+`terraform init`
+
+Update the `main.tf` file with more resources. With this Terraform provider, every 'resource' you will create is a user, with a first name and a last name. For example:
+
+```hcl
+resource "ctoa_people" "nvibert" {
+  first_name = "Nico"
+  last_name = "Vibert"
+}
+```
+
+In the `main.tf` file, we refer to the host as the webserver (`127.0.0.1` is the client itself). That's the webserver currently running.
  
 In your Terraform terminal, once the main.tf file is updated with the resources you are creating, do a:
  
@@ -111,3 +123,7 @@ And you should see new entries added to the table on the webserver.
 ![web_server_apply](clarity-web-server-done.png)
 
 A `terraform destroy` will remove all entries from the table.
+
+Try to modify the resources by changing the first name or the second name of the resources. When you run a `terraform plan`, you can see that the resource is not deleted and re-created by the change, but updated-in-place.
+
+Well done for building your own custom Terraform provider!
